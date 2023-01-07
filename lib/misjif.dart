@@ -1,32 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:markdown/markdown.dart';
-
-MapEntry buildPostMeta(String line) {
-  var meta = line.split(':');
-  return MapEntry(meta[0], meta[1]);
-}
+import 'Post.dart';
 
 String renderHtml(String path) {
-  List<String> markdown = File(path).readAsLinesSync();
-
-  var metaItems = markdown
-      .skipWhile((line) => line == '---')
-      .takeWhile((line) => line != '---')
-      .map((line) => buildPostMeta(line));
-
-  var htmlItems = markdown
-      .skipWhile((line) => line == '---')
-      .skipWhile((line) => line != '---')
-      .skip(1)
-      .map((line) => markdownToHtml(line));
-
-  Map postMetadata = Map.fromEntries(metaItems);
-  var htmlString = htmlItems.join('');
+  Post post = Post(path);
   var postTemplate = File('templates/post.html').readAsStringSync();
-  postTemplate = postTemplate.replaceAll(
-      RegExp(r'{{ post.title }}'), postMetadata['title']);
-  postTemplate = postTemplate.replaceAll(RegExp(r'{{ post }}'), htmlString);
+  postTemplate = postTemplate.replaceAll(RegExp(r'{{ post.title }}'), post.title);
+  postTemplate = postTemplate.replaceAll(RegExp(r'{{ post }}'), post.content);
   return postTemplate;
 }
 
