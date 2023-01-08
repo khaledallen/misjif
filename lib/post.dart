@@ -6,8 +6,9 @@ class Post {
   late DateTime date;
   late String content;
   bool draft = true;
+  String path;
 
-  Post(String path) {
+  Post(this.path) {
     List<String> markdownString = File(path).readAsLinesSync();
 
     Map metadata = parseYaml(markdownString);
