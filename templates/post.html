@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-  {{ include 'head.html' }}
+  {{ include "head" }}
   <body>
     <div class="column">
-      <h1 id = "headerHeader"></h1>
+      <h1 id = "headHeader"></h1>
       <h1>{{ post.title }}</h1>
       <div class="post-body">
-        {{ post }}
+        {{ post.content }}
       </div>
     </div>
   </body>

@@ -5,14 +5,16 @@ class Post {
   late String title;
   late DateTime date;
   late String content;
+  bool draft = true;
 
   Post(String path) {
-    List<String> markdown = File(path).readAsLinesSync();
+    List<String> markdownString = File(path).readAsLinesSync();
 
-    Map metadata = parseYaml(markdown);
-    title = metadata['title'];
-    date = metadata['date'];
-    content = parseHtml(markdown);
+    Map metadata = parseYaml(markdownString);
+    title = metadata['title'].trim();
+    date = DateTime.parse(metadata['date'].trim());
+    draft = metadata['draft'] != 'false' ? false : draft;
+    content = parseHtml(markdownString);
   }
 
   MapEntry buildPostMeta(String line) {
