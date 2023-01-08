@@ -1,15 +1,15 @@
 import 'dart:io';
 import 'post.dart';
 
-String insertIncludes(String template) {
+String insertIncludes(String template, Post post) {
     RegExp regExp = RegExp(r'{{\s*([a-zA-z." ]*)\s*}}');
-    template = template.replaceAllMapped(regExp, (match) => include(match[0])); 
+    template = template.replaceAllMapped(regExp, (match) => insert(match[1], post)); 
     return template;
 }
 
-include(String? m) {
+insert(String? m, Post post) {
   if(m != null && m.isNotEmpty) {
-    String command = m;
+    String command = m.trim();
     if(command.contains('include')) {
       String filename = getFilename(command);
       String filler = File('templates/$filename.html').readAsStringSync();
@@ -17,7 +17,17 @@ include(String? m) {
     }
 
     if(command.contains('post.')) {
-      print(command);
+      final parts = command.split('.');
+      if(parts[0] != 'post') print('What is ${parts[0]}?');
+      final prop = parts[1];
+      switch(prop) {
+        case 'title':
+          return post.title;
+        case 'date':
+          return post.getFormattedDate();
+        case 'content':
+          return post.content;
+      }
     }
   }
   return '';
@@ -35,15 +45,8 @@ String getFilename(String command) {
   return command.substring(start, end);
 }
 
-String insertPost(String postTemplate, Post post) {
-  postTemplate = postTemplate.replaceAll(RegExp(r'{{ post.title }}'), post.title);
-  postTemplate = postTemplate.replaceAll(RegExp(r'{{ post.content }}'), post.content);
-  return postTemplate;
-}
-
 String buildPost(Post post) {
   var postTemplate = File('templates/post.html').readAsStringSync();
-  postTemplate = insertPost(postTemplate, post);
-  postTemplate = insertIncludes(postTemplate);
+  postTemplate = insertIncludes(postTemplate, post);
   return postTemplate;
 }
