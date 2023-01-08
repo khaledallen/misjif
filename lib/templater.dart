@@ -7,6 +7,20 @@ String insertIncludes(String template, Post post) {
     return template;
 }
 
+handlePosts(command, post) {
+  final parts = command.split('.');
+  if(parts[0] != 'post') print('What is ${parts[0]}?');
+  final prop = parts[1];
+  switch(prop) {
+    case 'title':
+      return post.title;
+    case 'date':
+      return post.getFormattedDate();
+    case 'content':
+      return post.content;
+  }
+}
+
 insert(String? m, Post post) {
   if(m != null && m.isNotEmpty) {
     String command = m.trim();
@@ -17,17 +31,7 @@ insert(String? m, Post post) {
     }
 
     if(command.contains('post.')) {
-      final parts = command.split('.');
-      if(parts[0] != 'post') print('What is ${parts[0]}?');
-      final prop = parts[1];
-      switch(prop) {
-        case 'title':
-          return post.title;
-        case 'date':
-          return post.getFormattedDate();
-        case 'content':
-          return post.content;
-      }
+      handlePosts(command, post);
     }
   }
   return '';
@@ -49,4 +53,13 @@ String buildPost(Post post) {
   var postTemplate = File('templates/post.html').readAsStringSync();
   postTemplate = insertIncludes(postTemplate, post);
   return postTemplate;
+}
+
+String buildIndex(List<Post> postList) {
+  var indexTemplate = File('templates/index.html').readAsStringSync();
+
+  indexTemplate = insertIncludes(indexTemplate,);
+
+  return indexTemplate;
+
 }
