@@ -1,13 +1,11 @@
 import 'dart:async';
 import 'dart:io';
-import 'Post.dart';
+import 'package:misjif/templater.dart';
+import 'post.dart';
 
-String renderHtml(String path) {
+String? renderHtml(String path) {
   Post post = Post(path);
-  var postTemplate = File('templates/post.html').readAsStringSync();
-  postTemplate = postTemplate.replaceAll(RegExp(r'{{ post.title }}'), post.title);
-  postTemplate = postTemplate.replaceAll(RegExp(r'{{ post }}'), post.content);
-  return postTemplate;
+  return buildPost(post);
 }
 
 Future<void> printPostToConsole(String postPath) async {
@@ -17,10 +15,12 @@ Future<void> printPostToConsole(String postPath) async {
 
 Future<void> generatePostFile(String postPath) async {
   var post = renderHtml(postPath);
-  try {
-    var file = await File('public/posts/post1.html').create(recursive: true);
-    file.writeAsStringSync(post);
-  } catch (e) {
-    print(e);
+  if(post != null) {
+    try {
+      var file = await File('public/posts/post1.html').create(recursive: true);
+      file.writeAsStringSync(post);
+    } catch (e) {
+      print(e);
+    }
   }
 }
