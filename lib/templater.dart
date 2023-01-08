@@ -36,8 +36,6 @@ String getFilename(String command) {
 }
 
 String insertPost(String postTemplate, Post post) {
-  print(postTemplate);
-  print(post.title);
   postTemplate = postTemplate.replaceAll(RegExp(r'{{ post.title }}'), post.title);
   postTemplate = postTemplate.replaceAll(RegExp(r'{{ post.content }}'), post.content);
   return postTemplate;
