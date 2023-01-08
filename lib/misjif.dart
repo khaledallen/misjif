@@ -3,24 +3,32 @@ import 'dart:io';
 import 'package:misjif/templater.dart';
 import 'post.dart';
 
-String? renderHtml(String path) {
+Future<void> printPostToConsole(String path) async {
   Post post = Post(path);
-  return buildPost(post);
+  String postHtml = buildPost(post);
+  print(postHtml);
 }
 
-Future<void> printPostToConsole(String postPath) async {
-  var post = renderHtml(postPath);
-  print(post);
+Future<void> generatePostFiles(String path) async {
+  Post post = Post(path);
+  String postHtml = buildPost(post);
+
+  String newName = path.split('/')[1].split('.')[0];
+  try {
+    var file = await File('public/posts/$newName.html').create(recursive: true);
+    file.writeAsStringSync(postHtml);
+  } catch (e) {
+    print(e);
+  }
 }
 
-Future<void> generatePostFile(String postPath) async {
-  var post = renderHtml(postPath);
-  if(post != null) {
-    try {
-      var file = await File('public/posts/post1.html').create(recursive: true);
-      file.writeAsStringSync(post);
-    } catch (e) {
-      print(e);
+void processPosts(String dir) {
+  var postDirectory = Directory(dir);
+  var posts = postDirectory.listSync();
+  for(var file in posts) {
+    if(file.path.contains('.md')) {
+      printPostToConsole(file.path);
+      generatePostFiles(file.path);
     }
   }
 }
