@@ -17,6 +17,25 @@ class Post {
     content = parseHtml(markdownString);
   }
 
+  String getFormattedDate() {
+    Map<int, String> months = {
+      1: 'January',
+      2: 'February',
+      3: 'March',
+      4: 'April',
+      5: 'May',
+      6: 'June',
+      7: 'July',
+      8: 'August',
+      9: 'September',
+      10: 'October',
+      11: 'November',
+      12: 'December',
+    };
+
+    return '${months[date.month]} ${date.day}, ${date.year}';
+  }
+
   MapEntry buildPostMeta(String line) {
     var meta = line.split(':');
     return MapEntry(meta[0], meta[1]);
