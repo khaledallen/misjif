@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:misjif/templater.dart';
 import 'post.dart';
+import 'package:misjif/parser.dart';
+import 'package:misjif/renderer.dart';
+
 
 String buildPostUrl(Post post) {
   String newName = post.path.split('/')[1].split('.')[0];
@@ -9,15 +11,19 @@ String buildPostUrl(Post post) {
 }
 
 Future<void> generatePostFile(Post post, {bool debug = false}) async {
-  String postHtml = buildPost(post);
+  var postTemplate = File('templates/post.html').readAsStringSync();
+  Parser parser = Parser(postTemplate);
+  List<String> parsed = parser.parse();
   if(debug) {
-    print(postHtml);
+    print('Parser produced: $parsed');
   }
 
   String newName = post.path.split('/')[1].split('.')[0];
   try {
     var file = await File('public/posts/$newName.html').create(recursive: true);
-    file.writeAsStringSync(postHtml);
+    Renderer renderer = Renderer(parsed, post);
+    var rendered = renderer.render();
+    file.writeAsStringSync(rendered);
   } catch (e) {
     print(e);
   }
