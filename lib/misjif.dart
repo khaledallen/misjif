@@ -21,7 +21,12 @@ Future<void> generatePostFile(Post post, {bool debug = false}) async {
   String newName = post.path.split('/')[1].split('.')[0];
   try {
     var file = await File('public/posts/$newName.html').create(recursive: true);
-    Renderer renderer = Renderer(parsed, post);
+    var data = {
+      'title': post.title,
+      'date': post.getFormattedDate(),
+      'content': post.content
+    };
+    Renderer renderer = Renderer(parsed, data);
     var rendered = renderer.render();
     file.writeAsStringSync(rendered);
   } catch (e) {
@@ -43,5 +48,25 @@ void processPosts(String dir) {
     }
   }
   print(postLinks);
+  generateIndex(postLinks);
 
+}
+
+Future<void> generateIndex(postLinks) async {
+  var indexTemplate = File('templates/index.html').readAsStringSync();
+  Parser parser = Parser(indexTemplate);
+  var parsedIndex = parser.parse();
+
+  try {
+    var file = await File('public/index.html').create(recursive: true);
+    Map<String, dynamic> data = {
+      'title': 'main page',
+      'postList': postLinks.toString(),
+    };
+    Renderer renderer = Renderer(parsedIndex, data);
+    var rendered = renderer.render();
+    file.writeAsStringSync(rendered);
+  } catch (e) {
+    print(e);
+  }
 }
