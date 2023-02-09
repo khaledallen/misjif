@@ -2,7 +2,7 @@ import 'post.dart';
 
 class Renderer {
   List<String> parsed;
-  Post postData;
+  Map<dynamic, dynamic> postData;
 
   Renderer(this.parsed, this.postData);
 
@@ -17,19 +17,14 @@ class Renderer {
     return parsed.join();
   }
 
-  insertData(token) {
+  String insertData(token) {
     var prop = token.replaceAll(RegExp('{{|}}'), '')
       .trim().split('.')[1];
-    print(prop);
-    switch (prop) {
-      case 'title':
-        return postData.title; 
-      case 'date':
-        return postData.getFormattedDate();
-      case 'content':
-        return postData.content; 
-      default:
-        print('No property $token defined on Posts.');
+    try {
+      print(postData[prop]);
+      return postData[prop];
+    } catch (e) {
+      print('Property $prop not defined on this post type: $e');
     }
     return token;
   }
