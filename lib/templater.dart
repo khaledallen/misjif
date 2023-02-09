@@ -1,3 +1,4 @@
+// DEPRECATED. KEEPING FOR REFERENCE UNTIL I MOGRATE
 import 'dart:io';
 import 'post.dart';
 
@@ -58,7 +59,7 @@ String buildPost(Post post) {
 String buildIndex(List<Post> postList) {
   var indexTemplate = File('templates/index.html').readAsStringSync();
 
-  indexTemplate = insertIncludes(indexTemplate,);
+  // indexTemplate = insertIncludes(indexTemplate,);
 
   return indexTemplate;
 
