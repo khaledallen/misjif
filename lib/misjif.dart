@@ -30,7 +30,7 @@ Future<void> generatePostFile(Post post, {bool debug = false}) async {
     var rendered = renderer.render();
     file.writeAsStringSync(rendered);
   } catch (e) {
-    print(e);
+    print('Error generating post file: $e');
   }
 }
 
@@ -43,30 +43,28 @@ void processPosts(String dir) {
     if(file.path.contains('.md')) {
       Post post = Post(file.path);
       postList.add(post);
-      generatePostFile(post, debug: true);
+      generatePostFile(post);
       postLinks.add(buildPostUrl(post));
     }
   }
-  print(postLinks);
-  generateIndex(postLinks);
+  generateIndex(postLinks, debug: true);
 
 }
 
-Future<void> generateIndex(postLinks) async {
+Future<void> generateIndex(postLinks, {bool debug = false}) async {
   var indexTemplate = File('templates/index.html').readAsStringSync();
   Parser parser = Parser(indexTemplate);
   var parsedIndex = parser.parse();
 
-  try {
-    var file = await File('public/index.html').create(recursive: true);
-    Map<String, dynamic> data = {
-      'title': 'main page',
-      'postList': postLinks.toString(),
-    };
-    Renderer renderer = Renderer(parsedIndex, data);
-    var rendered = renderer.render();
-    file.writeAsStringSync(rendered);
-  } catch (e) {
-    print(e);
+  var file = await File('public/index.html').create(recursive: true);
+  Map<String, dynamic> data = {
+    'title': 'main page',
+    'postList': postLinks.toString(),
+  };
+  Renderer renderer = Renderer(parsedIndex, data);
+  var rendered = renderer.render();
+  if(debug) {
+    print('Rendered index: $rendered');
   }
+  file.writeAsStringSync(rendered);
 }
