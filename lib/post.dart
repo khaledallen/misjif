@@ -5,6 +5,7 @@ class Post {
   late String title;
   late DateTime date;
   late String content;
+  late String image;
   bool draft = true;
   String path;
 
@@ -15,6 +16,7 @@ class Post {
     title = metadata['title'].trim();
     date = DateTime.parse(metadata['date'].trim());
     draft = metadata['draft'] != 'false' ? false : draft;
+    image = metadata['image'] != null ? metadata['image'].trim() : '';
     content = parseHtml(markdownString);
   }
 

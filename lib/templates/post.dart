@@ -9,16 +9,27 @@ postTemplate(Map<String, dynamic> data) {
     ${head()}
     <body>
       ${header()}
-      <div class="column">
-        <h1 id = "headHeader"></h1>
-        <h1>${data['title']}</h1>
-        <h3>${data['date']}</h3>
-        <div class="post-body">
-          ${data['content']}
+      <main class="container">
+        <div class="column">
+          <article>
+            <h3 class="post-date">${data['date']}</h3>
+            <h1 class="post-title">${data['title']}</h1>
+            <div class="post-image">
+              ${_postImage(data['image'])}
+            </div>
+            <div class="post-body">
+              ${data['content']}
+            </div>
+          </article>
         </div>
-      </div>
+      </main>
       ${footer()}
     </body>
   </html>
   ''';
+}
+
+_postImage(image) {
+  if(image != '') return '<img src="../images/$image />';
+  return '';
 }

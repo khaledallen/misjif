@@ -1,0 +1,72 @@
+$container-width: 60%;
+
+@mixin containerize {
+    width: $container-width;
+    margin: auto;
+}
+
+body {
+    font-family: 'Mulish', Helvetica, sans-serif;
+    background: #ffffff;
+}
+
+a {
+    text-decoration: none;
+}
+
+.navbar {
+    display: flex;
+    flex-direction: row;
+    @include containerize;
+    background: plum; 
+    padding: 0px 10px 0px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    @include containerize;
+
+    .content {
+        width: 66%;
+    }
+}
+
+.footer {
+    @include containerize;
+    background: plum; 
+    padding: 0px 10px 0px;
+}
+
+.post-title {
+    font-size: 3.5em;
+    text-align: center;
+    margin-top: 0;
+}
+
+.post-date {
+    text-align: center;
+    color: lightgrey;
+}
+
+.post-image {
+    img {
+        width: 100%;
+    }
+}
+
+.post-body {
+    font-size: 17px;
+    line-height: 27.2px;
+    font-weight: 300;
+    
+    h1, h2, h3, h4 {
+        font-weight: 800;
+    }
+
+    blockquote {
+        border-left: 2px red solid;
+        padding-left: 20px;
+        margin-left: 0;
+    }
+}
