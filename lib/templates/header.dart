@@ -1,3 +1,9 @@
+import 'package:misjif/globals.dart';
+
 header () {
-  return '<a href="../index.html">back home</a>';
+  return '''
+    <div class="navbar">
+      <h4 class="home-link"><a href="$rootPath/index.html">Home</a></h4>
+    </div>
+  ''';
 }
