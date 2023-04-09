@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:markdown/markdown.dart';
 
-class Post {
+class Page {
   late String title;
   late DateTime date;
   late String content;
@@ -9,7 +9,7 @@ class Post {
   bool draft = true;
   String path;
 
-  Post(this.path) {
+  Page(this.path) {
     List<String> markdownString = File(path).readAsLinesSync();
 
     Map metadata = parseYaml(markdownString);
@@ -39,7 +39,7 @@ class Post {
     return '${months[date.month]} ${date.day}, ${date.year}';
   }
 
-  MapEntry buildPostMeta(String line) {
+  MapEntry buildPageMeta(String line) {
     var meta = line.split(':');
     return MapEntry(meta[0], meta[1]);
   }
@@ -48,7 +48,7 @@ class Post {
     var metaItems = markdown
         .skipWhile((line) => line == '---')
         .takeWhile((line) => line != '---')
-        .map((line) => buildPostMeta(line));
+        .map((line) => buildPageMeta(line));
     return Map.fromEntries(metaItems);
   }
 

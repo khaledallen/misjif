@@ -30,6 +30,6 @@ postTemplate(Map<String, dynamic> data) {
 }
 
 _postImage(image) {
-  if(image != '') return '<img src="../images/$image />';
+  if (image != '') return '<img src="../images/$image />';
   return '';
 }
