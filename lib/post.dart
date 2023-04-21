@@ -20,6 +20,10 @@ class Post {
     content = generateHtmlFromMarkdown(markdownString);
   }
 
+  String getFilename() {
+    return path.split('/')[2].split('.')[0];
+  }
+
   String getFormattedDate() {
     Map<int, String> months = {
       1: 'January',

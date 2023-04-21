@@ -20,23 +20,8 @@ class Page {
     content = generateHtmlFromMarkdown(markdownString);
   }
 
-  String getFormattedDate() {
-    Map<int, String> months = {
-      1: 'January',
-      2: 'February',
-      3: 'March',
-      4: 'April',
-      5: 'May',
-      6: 'June',
-      7: 'July',
-      8: 'August',
-      9: 'September',
-      10: 'October',
-      11: 'November',
-      12: 'December',
-    };
-
-    return '${months[date.month]} ${date.day}, ${date.year}';
+  String getFilename() {
+    return path.split('/')[2].split('.')[0];
   }
 
   MapEntry buildPageMeta(String line) {

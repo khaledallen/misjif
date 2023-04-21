@@ -1,4 +1,6 @@
-$container-width: 60%;
+$container-width: 80%;
+$pale-grey: #f2f2f2;
+$purple: #2f00a2;
 
 @mixin containerize {
     width: $container-width;
@@ -12,29 +14,44 @@ body {
 
 a {
     text-decoration: none;
+    color: $purple;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: $purple;
 }
 
 .navbar {
     display: flex;
     flex-direction: row;
     @include containerize;
-    background: plum; 
-    padding: 0px 10px 0px;
+    background: $pale-grey;
+    padding: 0px 20px 0px;
 }
 
 .container {
     display: flex;
     flex-direction: row;
+    justify-content: center;
     @include containerize;
 
-    .content {
-        width: 66%;
+    main {
+        width: 700px;
+    }
+
+    .sidebar {
+        margin-left: 20px;
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
     }
 }
 
 .footer {
     @include containerize;
-    background: plum; 
+    background: $pale-grey; 
     padding: 0px 10px 0px;
 }
 
@@ -46,7 +63,7 @@ a {
 
 .post-date {
     text-align: center;
-    color: lightgrey;
+    color: $pale-grey;
 }
 
 .post-image {
