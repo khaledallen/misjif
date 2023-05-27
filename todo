@@ -1,4 +1,4 @@
 - [x] move recent posts list into a global component like navbar
-- [ ] clean up the styles and settle on something
-- [ ] finish styling navbar
+- [x] clean up the styles and settle on something
+- [x] finish styling navbar
 - [ ] fix post images

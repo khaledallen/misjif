@@ -17,6 +17,7 @@ void buildSite(String dir) async {
   await Directory('public/styles').create(recursive: true);
   generatePostList(dir);
   generatePageList(dir);
+  processImages(dir);
   renderNavbar({'pageList': pageList});
   renderPostList({'postList': postList});
   for (var page in pageList) {
@@ -100,6 +101,15 @@ Future<void> generateIndex({bool debug = false}) async {
     print('Rendered index: $rendered');
   }
   file.writeAsStringSync(rendered);
+}
+
+void processImages(String dir) async {
+  var publicImgDir = await Directory('public/images/').create(recursive: true);
+  var imgFiles = Directory('$dir/images/').listSync();
+  for (var file in imgFiles) {
+    var filename = file.path.substring(file.path.lastIndexOf('/') + 1);
+    File(file.path).copy('${publicImgDir.path}$filename');
+  }
 }
 
 compileSass() {
