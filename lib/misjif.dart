@@ -33,7 +33,7 @@ void buildSite(String dir) async {
 Future<void> generatePostFile(Post post, {bool debug = false}) async {
   print('Generating post file: ${post.getFilename()}');
   try {
-    var file = await File('$rootPath/posts/${post.getFilename()}.html')
+    var file = await File('public/posts/${post.getFilename()}.html')
         .create(recursive: true);
     var data = {
       'title': post.title,
@@ -62,7 +62,7 @@ void generatePostList(String dir) {
 
 Future<void> generatePageFile(Page page, {bool debug = false}) async {
   try {
-    var file = await File('$rootPath/page/${page.getFilename()}.html')
+    var file = await File('public/page/${page.getFilename()}.html')
         .create(recursive: true);
     var data = {
       'title': page.title,
