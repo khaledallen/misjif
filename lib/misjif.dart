@@ -58,6 +58,7 @@ void generatePostList(String dir) {
       postList.add(post);
     }
   }
+  postList.sort((a, b) => b.date.compareTo(a.date));
 }
 
 Future<void> generatePageFile(Page page, {bool debug = false}) async {
@@ -89,10 +90,9 @@ void generatePageList(String dir) {
 
 Future<void> generateIndex({bool debug = false}) async {
   var file = await File('public/index.html').create(recursive: true);
-  postList.sort((a, b) => b.date.compareTo(a.date));
-  print(postList);
   Map<String, dynamic> data = {
     'title': 'main page',
+    'latestPost': postList[0],
     'postList': getPostList(),
     'rootPath': rootPath,
   };
